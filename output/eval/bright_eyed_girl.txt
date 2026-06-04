@@ -1,0 +1,7 @@
+--voice-sample heidi_demo.mp3
+--prompt 'A bright-eyed girl spins in a field of wildflowers, her voice bubbling with pure, breathless wonder:
+"Aizu, aitona! Entzun duzu?!"
+She laughs, a sound as clear as a mountain stream.
+"Makina batek hitz egiten duela dirudi, baina hain da erreala!"
+She spreads her arms wide, looking up at the sky in disbelief.
+"Sinestezina da… adimen artifizialak nire ahotsa sortu du!!"'

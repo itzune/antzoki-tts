@@ -1,0 +1,4 @@
+--voice-sample dragoibola_demo.mp3
+--prompt 'A shadowy villain speaks with cold menace, "Nire lurretan sartu zara, morroi"
+He chuckles darkly, "Erruz ordainduko duzu."
+His voice rises with fury, "Belaunikatu, edo suntsituko zaitut!!"'

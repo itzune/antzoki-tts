@@ -1,0 +1,7 @@
+--voice-sample goenkale_marialuisa_demo.mp3
+--prompt 'A 60-year-old woman speaks with exasperation, as if she has explained this a hundred times already.
+"Bai, bai, beste behin errepikatuko dizuet."
+She sighs heavily, her patience completely exhausted,
+"Debekatuta dago ahots hau dirua irabazteko erabiltzea!"
+Her voice cracks with frustration, almost shouting,
+"Zenbat aldiz esan behar dizuet, arraioa!"'

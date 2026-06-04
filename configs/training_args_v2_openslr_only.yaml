@@ -1,0 +1,41 @@
+# V2 (OpenSLR-only): conservative run to preserve more expressive prior
+# Use this right after V1 completes.
+
+data_dir:
+  - /home/xezpeleta/dev/anttseztu/data/preprocessed/
+
+speaker_index:
+  - /home/xezpeleta/dev/anttseztu/data/speaker_index/basque_speaker_index.txt
+
+output_dir: /home/xezpeleta/dev/anttseztu/output/basque-lora-v2-openslr-only/
+
+checkpoint:      /home/xezpeleta/dev/DramaBox/dramabox-dit-v1.safetensors
+full_checkpoint: /home/xezpeleta/dev/DramaBox/dramabox-audio-components.safetensors
+base_model: dev
+
+# Lower-capacity, gentler LoRA
+lora_rank: 64
+lora_alpha: 64
+lora_dropout: 0.1
+
+# Keep IC-LoRA setup, but avoid over-regularizing text pathway
+ref_ratio: 0.3
+max_ref_tokens: 200
+text_dropout: 0.10
+
+# Conservative schedule (shorter run, lower LR)
+steps: 3000
+lr: 3.0e-05
+lr_scheduler: cosine
+warmup_steps: 200
+
+batch_size: 1
+grad_accum: 4
+max_grad_norm: 1.0
+
+save_every: 200
+log_every: 50
+seed: 53
+
+# Keep disabled unless you want auto validation subprocesses
+# val_config: /home/xezpeleta/dev/anttseztu/configs/val_config.yaml

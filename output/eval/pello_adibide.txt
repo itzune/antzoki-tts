@@ -1,0 +1,5 @@
+--voice-sample pello_reparaz_15s.mp3
+--prompt 'A young man in his thirties speaks with a relaxed, easygoing tone, his voice warm and unhurried.
+"Hau beste adibide bat besterik ez da."
+He pauses briefly, a slight smile in his voice as he adds with genuine sincerity,
+"Inori kalte egin nahi ez diona."'

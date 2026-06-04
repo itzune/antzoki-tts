@@ -1,0 +1,5 @@
+--voice-sample maddalen_arzallus_15s.mp3
+--prompt 'A 30-year-old woman with a clear, bright voice speaks calmly, her tone gentle and reassuring.
+"Hau beste adibide bat besterik ez da."
+She pauses briefly, her voice softening with sincerity,
+"Inori kalte egin nahi ez diona."'

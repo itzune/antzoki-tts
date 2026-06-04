@@ -1,0 +1,3 @@
+[submodule "DramaBox"]
+	path = DramaBox
+	url = https://github.com/resemble-ai/DramaBox.git

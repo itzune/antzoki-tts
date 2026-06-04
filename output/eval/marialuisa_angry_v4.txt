@@ -1,0 +1,7 @@
+--voice-sample goenkale_marialuisa_demo.mp3
+--prompt 'A 60-year-old woman speaks with biting sarcasm, her voice dripping with mock sweetness.
+"A, bai? Eta zuek uste zenuten nire ahotsa doan zela?"
+She lets out a short, sharp laugh, then her tone turns deadly serious,
+"Akaso proba bat da, baina errespetua eskatzen dut!"
+She scoffs, her voice full of contempt,
+"Erabilera komertziala? Nire gorpuaren gainetik!"'

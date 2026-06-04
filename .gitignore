@@ -1,0 +1,32 @@
+# Python / uv
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+uv.lock
+.python-version
+
+# Secrets
+.env
+
+# Model weights (downloaded separately, not in repo)
+*.safetensors
+*.bin
+*.pt
+gemma-3-12b-it-bnb-4bit/
+
+# Large audio files (except curated eval samples)
+output/eval/*.wav
+output/eval/*.mp3
+!output/eval/shadowy_villain.mp3
+!output/eval/bright_eyed_girl.mp3
+!output/eval/refs/
+
+# Training output
+output/basque-lora-v1/
+
+# Misc
+.DS_Store
+*.swp

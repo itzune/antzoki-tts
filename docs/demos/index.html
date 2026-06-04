@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antzoki TTS — Demo Samples</title>
+<style>
+  :root {
+    --bg:        #fafafa;
+    --card-bg:   #ffffff;
+    --text:      #1a1a1a;
+    --text-mid:  #555;
+    --text-dim:  #888;
+    --border:    #e0e0e0;
+    --accent:    #4a4a8a;
+    --ref-tag:   #4a6fa5;
+    --gen-tag:   #2d7d46;
+    --code-bg:   #f3f3f6;
+    --max-w:     820px;
+    --radius:    5px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Charter', 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    font-size: 16px;
+  }
+
+  /* ── Lang switcher ── */
+  .lang-bar {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 10px 24px 0;
+    text-align: right;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.82rem;
+  }
+  .lang-bar a {
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-left: 2px;
+    transition: all 0.15s ease;
+  }
+  .lang-bar a:hover { color: var(--accent); }
+  .lang-bar a.active {
+    color: #fff;
+    background: var(--accent);
+    border-radius: 3px;
+  }
+
+  /* ── Header ── */
+  header {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px 0;
+    text-align: center;
+    background: var(--bg);
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  header .sub {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    font-style: italic;
+  }
+  header .meta {
+    margin-top: 14px;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  header .meta span { margin: 0 8px; }
+
+  /* ── Section ── */
+  .section {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 28px 24px;
+  }
+  .section + .section { border-top: 1px solid var(--border); }
+
+  .section-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 6px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  .section-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 18px;
+    font-style: italic;
+  }
+
+  /* ── Two-column row ── */
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 2px;
+    background: var(--border);
+  }
+  .row:last-child { margin-bottom: 0; }
+
+  .col {
+    background: var(--card-bg);
+    padding: 16px 18px;
+    min-width: 0;
+  }
+
+  .col-ref { border-right: 1px solid var(--border); }
+  .col-gen { }
+
+  .col-tag {
+    display: inline-block;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+  .tag-ref { background: rgba(74,111,165,0.1); color: var(--ref-tag); }
+  .tag-gen { background: rgba(45,125,70,0.1); color: var(--gen-tag); }
+
+  audio {
+    width: 100%;
+    height: 32px;
+    margin-bottom: 0;
+    border-radius: 3px;
+    filter: grayscale(0.1);
+  }
+  audio::-webkit-media-controls-panel { background: #f5f5f8; }
+
+  .prompt {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+    background: var(--code-bg);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    max-height: 140px;
+    overflow-y: auto;
+    font-family: 'Charter', 'Georgia', serif;
+    font-style: italic;
+  }
+
+  .audio-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-mid);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .eu {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  /* ── Multi-version: ref spans left column, generations stack in right ── */
+  .multi-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--border);
+  }
+  .multi-ref {
+    background: var(--card-bg);
+    padding: 16px 18px;
+  }
+  .multi-gen-col {
+    display: grid;
+    gap: 2px;
+    background: var(--border);
+  }
+  .multi-gen-row {
+    background: var(--card-bg);
+    padding: 14px 18px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    max-width: var(--max-w);
+    margin: 40px auto;
+    padding: 24px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .row, .multi-block { grid-template-columns: 1fr; }
+    .col-ref { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<div class="lang-bar">
+  <a href="#" id="lang-en" class="active" onclick="setLang('en');return false;">EN</a>
+  <a href="#" id="lang-eu" onclick="setLang('eu');return false;">EU</a>
+</div>
+
+<header>
+  <img src="logo.png" alt="Antzoki TTS" style="height:400px; margin-bottom:0;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';this.nextElementSibling.nextElementSibling.style.display='block';" onload="this.nextElementSibling.style.display='none';this.nextElementSibling.nextElementSibling.style.display='none';">
+  <h1 style="display:none;">Antzoki TTS</h1>
+  <p class="sub" style="display:none;"><lang en>Basque expressive text‑to‑speech with voice cloning</lang><lang eu>Euskarazko ahots-sintesi adierazkorra ahots-klonazioarekin</lang></p>
+  <p class="meta">
+    <a href="https://github.com/itzune/antzoki-tts">GitHub</a> <span>·</span>
+    <a href="https://huggingface.co/itzune/antzoki-tts">HuggingFace</a> <span>·</span>
+    <a href="https://itzune.eus">Itzune</a>
+  </p>
+</header>
+
+<div style="max-width: var(--max-w); margin: 0 auto; padding: 0 24px 32px;">
+  <div style="background: rgba(74,74,138,0.04); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px;">
+    <p style="margin-bottom:10px; font-size:0.9rem; color: var(--text-mid);">
+      <lang en>The voices demonstrated below are well-known figures in Basque culture. They were chosen to illustrate the expressive range of Antzoki TTS across different speaker identities and emotional registers.</lang>
+      <lang eu>Jarraian entzungai dauden ahotsak euskal kulturako figura ezagunak dira. Antzoki TTSren adierazkortasun-gaitasuna erakusteko aukeratu ditugu, hiztun eta erregistro emozional ezberdinetan.</lang>
+    </p>
+    <p style="margin-bottom:0; font-size:0.82rem; color: var(--text-dim);">
+      <strong style="color: var(--accent);">&#9888; <lang en>Ethical notice:</lang><lang eu>Ohar etikoa:</lang></strong>
+      <lang en>These samples are research demonstrations only. Voice cloning carries inherent risks of misuse, including impersonation and non-consensual speech synthesis. Do not use these or any cloned voices for commercial purposes, to deceive, to supplant someone&rsquo;s identity, or without the explicit consent of the voice owner.</lang>
+      <lang eu>Lagín hauek ikerketa-demostrazioak besterik ez dira. Ahots-klonazioak erabilera okerra izateko arriskuak dakartza, hala nola ordezkatzea eta baimenik gabeko ahots-sintesia. Ez erabili ahots hauek edo klonatutako beste ezein ahots helburu komertzialetarako, iruzur egiteko, inoren nortasuna ordezteko, edo ahotsaren jabearen berariazko baimenik gabe.</lang>
+    </p>
+  </div>
+</div>
+
+
+<!-- ═══ 1. SONGOKU ═══ -->
+<div class="section">
+  <div class="section-title">Son Goku — Dragoibola</div>
+  <div class="section-subtitle"><lang en>Shadowy villain · cold menace · fury</lang><lang eu>Bilau iluna · mehatxu hotza · amorrua</lang></div>
+
+  <div class="row">
+    <div class="col col-ref">
+      <span class="col-tag tag-ref"><lang en>Reference</lang><lang eu>Erreferentzia</lang></span>
+      <div class="audio-label">Dragoibola · <lang en>Son Goku voice</lang><lang eu>Son Gokuren ahotsa</lang></div>
+      <audio controls preload="none"><source src="audio/refs/dragoibola_demo.mp3" type="audio/mpeg"></audio>
+    </div>
+    <div class="col col-gen">
+      <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang></span>
+      <div class="audio-label">shadowy_villain</div>
+      <audio controls preload="none"><source src="audio/gen/shadowy_villain.mp3" type="audio/mpeg"></audio>
+      <div class="prompt"><lang en>A shadowy villain speaks with cold menace</lang><lang eu>Bilau ilun batek mehatxu hotzez hitz egiten du</lang>, <span class="eu">&ldquo;Nire lurretan sartu zara, morroi&rdquo;</span><br><lang en>He chuckles darkly</lang><lang eu>Barre iluna egiten du</lang>, <span class="eu">&ldquo;Erruz ordainduko duzu.&rdquo;</span><br><lang en>His voice rises with fury</lang><lang eu>Bere ahotsa amorruz igotzen da</lang>, <span class="eu">&ldquo;Belaunikatu, edo suntsituko zaitut!!&rdquo;</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ 2. HEIDI ═══ -->
+<div class="section">
+  <div class="section-title">Heidi</div>
+  <div class="section-subtitle"><lang en>Bright‑eyed wonder · joy · laughter</lang><lang eu>Begi distiratsudun harridura · poza · barrea</lang></div>
+
+  <div class="row">
+    <div class="col col-ref">
+      <span class="col-tag tag-ref"><lang en>Reference</lang><lang eu>Erreferentzia</lang></span>
+      <div class="audio-label">Heidi · <lang en>Original voice</lang><lang eu>Jatorrizko ahotsa</lang></div>
+      <audio controls preload="none"><source src="audio/refs/heidi_demo.mp3" type="audio/mpeg"></audio>
+    </div>
+    <div class="col col-gen">
+      <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang></span>
+      <div class="audio-label">bright_eyed_girl</div>
+      <audio controls preload="none"><source src="audio/gen/bright_eyed_girl.mp3" type="audio/mpeg"></audio>
+      <div class="prompt"><lang en>A bright-eyed girl spins in a field of wildflowers, her voice bubbling with pure, breathless wonder:</lang><lang eu>Begi distiratsudun neska bat basalorez betetako zelai batean biraka dabil, bere ahotsa harridura hutsez beteta:</lang><br><span class="eu">&ldquo;Aizu, aitona! Entzun duzu?!&rdquo;</span><br><lang en>She laughs, a sound as clear as a mountain stream.</lang><lang eu>Barre egiten du, mendiko erreka bezain garbi.</lang><br><span class="eu">&ldquo;Makina batek hitz egiten duela dirudi, baina hain da erreala!&rdquo;</span><br><lang en>She spreads her arms wide, looking up at the sky in disbelief.</lang><lang eu>Besak zabaltzen ditu, zerura begira, sinetsi ezinik.</lang><br><span class="eu">&ldquo;Sinestezina da… adimen artifizialak nire ahotsa sortu du!!&rdquo;</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ 3. MARIA LUISA ═══ -->
+<div class="section">
+  <div class="section-title">Maria Luisa — Goenkale</div>
+  <div class="section-subtitle"><lang en>4 expressive variants</lang><lang eu>4 aldaera adierazkor</lang></div>
+
+  <div class="multi-block">
+    <div class="multi-ref">
+      <span class="col-tag tag-ref"><lang en>Reference</lang><lang eu>Erreferentzia</lang></span>
+      <div class="audio-label">Goenkale · Maria Luisa</div>
+      <audio controls preload="none"><source src="audio/refs/goenkale_marialuisa_demo.mp3" type="audio/mpeg"></audio>
+    </div>
+    <div class="multi-gen-col">
+      <div class="multi-gen-row">
+        <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang> · v1</span>
+        <audio controls preload="none"><source src="audio/gen/marialuisa_angry.mp3" type="audio/mpeg"></audio>
+        <div class="prompt"><lang en>A 60-year-old woman speaks with sharp frustration, her voice dripping with indignation.</lang><lang eu>60 urteko emakume batek frustrazioz hitz egiten du, bere ahotsa haserre biziz beteta.</lang> <span class="eu">&ldquo;Baina, noski, hau proba bat besterik ez da!&rdquo;</span> <lang en>Her tone hardens, each word crisp and cutting.</lang><lang eu>Bere tonua gogortu egiten da, hitz bakoitza zorrotz eta ebakiz.</lang> <span class="eu">&ldquo;Inolaz ere ezin duzue erabili ahots hau erabilera komertzialerako!&rdquo;</span> <lang en>She slams her hand on the table, her voice rising to a furious shout,</lang><lang eu>Eskua mahaiaren kontra kolpatzen du, bere ahotsa oihu amorratu batean igoz,</lang> <span class="eu">&ldquo;Ezta pentsatu ere!!&rdquo;</span></div>
+      </div>
+      <div class="multi-gen-row">
+        <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang> · v2</span>
+        <audio controls preload="none"><source src="audio/gen/marialuisa_angry_v2.mp3" type="audio/mpeg"></audio>
+        <div class="prompt"><lang en>A 60-year-old woman speaks with icy, controlled fury, each syllable sharp as glass.</lang><lang eu>60 urteko emakume batek amorru izoztu eta kontrolatuaz hitz egiten du, silaba bakoitza beira bezain zorrotz.</lang> <span class="eu">&ldquo;Hau abisua da, eta ongi gorde ezazue.&rdquo;</span> <lang en>She leans in closer, her voice dropping to a venomous whisper.</lang><lang eu>Aurrerantz makurtzen da, bere ahotsa xuxurla pozoitsu batera jaitsiz.</lang> <span class="eu">&ldquo;Ahots honekin ezin duzue negoziorik egin, ulertzen?&rdquo;</span> <lang en>She lets out a bitter, humorless laugh.</lang><lang eu>Barre mingots eta umorerik gabekoa egiten du.</lang> <span class="eu">&ldquo;Hori legez kanpokoa litzateke, eta badakizue.&rdquo;</span></div>
+      </div>
+      <div class="multi-gen-row">
+        <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang> · v3</span>
+        <audio controls preload="none"><source src="audio/gen/marialuisa_angry_v3.mp3" type="audio/mpeg"></audio>
+        <div class="prompt"><lang en>A 60-year-old woman speaks with exasperation, as if she has explained this a hundred times already.</lang><lang eu>60 urteko emakume batek etsipenez hitz egiten du, hau ehun aldiz azaldu izan balu bezala.</lang> <span class="eu">&ldquo;Bai, bai, beste behin errepikatuko dizuet.&rdquo;</span> <lang en>She sighs heavily, her patience completely exhausted.</lang><lang eu>Hasperen sakona egiten du, bere pazientzia erabat agortuta.</lang> <span class="eu">&ldquo;Debekatuta dago ahots hau dirua irabazteko erabiltzea!&rdquo;</span> <lang en>Her voice cracks with frustration, almost shouting,</lang><lang eu>Bere ahotsa frustrazioz urratzen da, ia oihuka,</lang> <span class="eu">&ldquo;Zenbat aldiz esan behar dizuet, arraioa!&rdquo;</span></div>
+      </div>
+      <div class="multi-gen-row">
+        <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang> · v4</span>
+        <audio controls preload="none"><source src="audio/gen/marialuisa_angry_v4.mp3" type="audio/mpeg"></audio>
+        <div class="prompt"><lang en>A 60-year-old woman speaks with biting sarcasm, her voice dripping with mock sweetness.</lang><lang eu>60 urteko emakume batek sarkasmo zorrotzez hitz egiten du, bere ahotsa gozotasun faltsuz beteta.</lang> <span class="eu">&ldquo;A, bai? Eta zuek uste zenuten nire ahotsa doan zela?&rdquo;</span> <lang en>She lets out a short, sharp laugh, then her tone turns deadly serious.</lang><lang eu>Barre labur eta zorrotza egiten du, gero bere tonua hilgarriki serio bihurtuz.</lang> <span class="eu">&ldquo;Akaso proba bat da, baina errespetua eskatzen dut!&rdquo;</span> <lang en>She scoffs, her voice full of contempt,</lang><lang eu>Mespretxuz hitz egiten du, bere ahotsa destainaz beteta,</lang> <span class="eu">&ldquo;Erabilera komertziala? Nire gorpuaren gainetik!&rdquo;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ 4. JOXEMARI ═══ -->
+<div class="section">
+  <div class="section-title">Joxemari — Goenkale</div>
+  <div class="section-subtitle"><lang en>3 expressive variants</lang><lang eu>3 aldaera adierazkor</lang></div>
+
+  <div class="multi-block">
+    <div class="multi-ref">
+      <span class="col-tag tag-ref"><lang en>Reference</lang><lang eu>Erreferentzia</lang></span>
+      <div class="audio-label">Goenkale · Joxemari</div>
+      <audio controls preload="none"><source src="audio/refs/goenkale_joxemari_demo.mp3" type="audio/mpeg"></audio>
+    </div>
+    <div class="multi-gen-col">
+      <div class="multi-gen-row">
+        <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang> · v1</span>
+        <audio controls preload="none"><source src="audio/gen/joxemari_arrogant_v1.mp3" type="audio/mpeg"></audio>
+        <div class="prompt"><lang en>A 60-year-old man with a gravelly voice leans in, a mischievous glint in his eye.</lang><lang eu>60 urteko gizon batek, ahots zakarrez, aurrerantz makurtzen da, begietan bihurrikeria puntu bat duela.</lang> <span class="eu">&ldquo;Aizue! Badakizue nola ikusi behar al den telebista ondo deskantsatzeko?&rdquo;</span> <lang en>He pauses for dramatic effect, then bursts into a hearty, gruff laugh,</lang><lang eu>Pausa dramatikoa egiten du, eta gero barre sendo eta zakar batean lehertzen da,</lang> <span class="eu">&ldquo;Atse-den!&rdquo;</span></div>
+      </div>
+      <div class="multi-gen-row">
+        <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang> · v2</span>
+        <audio controls preload="none"><source src="audio/gen/joxemari_arrogant_v2.mp3" type="audio/mpeg"></audio>
+        <div class="prompt"><lang en>A 60-year-old man speaks with deep bitterness, his voice rough and weary from years of disappointment.</lang><lang eu>60 urteko gizon batek mingostasun sakonaz hitz egiten du, bere ahotsa urteetako etsipenak zakartu eta nekatu duelarik.</lang> <span class="eu">&ldquo;Urteak daramatzat hemen, eta oraindik probatzat hartzen naute.&rdquo;</span> <lang en>He pauses, his jaw tightening with resentment.</lang><lang eu>Isildu egiten da, masailezurra erresuminak estututa.</lang> <span class="eu">&ldquo;Nire ahotsa ez da jostailu bat, ulertzen?&rdquo;</span> <lang en>His voice rises, trembling with barely contained rage,</lang><lang eu>Bere ahotsa igotzen da, nekez eutsitako amorruz dardaraka,</lang> <span class="eu">&ldquo;Eta komertzializatzen saiatzen bazarete… hobe duzue ez.&rdquo;</span></div>
+      </div>
+      <div class="multi-gen-row">
+        <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang> · v3</span>
+        <audio controls preload="none"><source src="audio/gen/joxemari_arrogant_v3.mp3" type="audio/mpeg"></audio>
+        <div class="prompt"><lang en>A 60-year-old man speaks with cold, deliberate menace, his deep voice barely above a whisper.</lang><lang eu>60 urteko gizon batek mehatxu hotz eta nahitaz hitz egiten du, bere ahots sakona ia xuxurla bat besterik ez delarik.</lang> <span class="eu">&ldquo;Hau proba hutsa dela? Lasai, bai, badakit.&rdquo;</span> <lang en>He leans forward, his tone turning dangerously quiet,</lang><lang eu>Aurrerantz makurtzen da, bere tonua arriskutsu bihurtuz,</lang> <span class="eu">&ldquo;Baina ondo gogoan hartu: ahots honekin jolasten duenak, nirekin jolasten du.&rdquo;</span> <lang en>He lets the silence stretch, then delivers the final words like a blade,</lang><lang eu>Isiltasuna luzatzen du, eta gero azken hitzak laban bat bezala botatzen ditu,</lang> <span class="eu">&ldquo;Eta ni ez naiz jostailua inorentzat.&rdquo;</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ 5. MADDALEN ═══ -->
+<div class="section">
+  <div class="section-title">Maddalen Arzallus</div>
+
+  <div class="row">
+    <div class="col col-ref">
+      <span class="col-tag tag-ref"><lang en>Reference</lang><lang eu>Erreferentzia</lang></span>
+      <div class="audio-label">Maddalen Arzallus · <lang en>Voice sample</lang><lang eu>Ahots-lagina</lang></div>
+      <audio controls preload="none"><source src="audio/refs/maddalen_arzallus_demo.mp3" type="audio/mpeg"></audio>
+    </div>
+    <div class="col col-gen">
+      <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang></span>
+      <div class="audio-label">maddalen_adibide</div>
+      <audio controls preload="none"><source src="audio/gen/maddalen_adibide.mp3" type="audio/mpeg"></audio>
+      <div class="prompt"><lang en>A 30-year-old woman with a clear, bright voice speaks calmly, her tone gentle and reassuring.</lang><lang eu>30 urteko emakume batek ahots argi eta distiratsuz hitz egiten du bare, bere tonua leuna eta lasaigarria delarik.</lang> <span class="eu">&ldquo;Hau beste adibide bat besterik ez da.&rdquo;</span> <lang en>She pauses briefly, her voice softening with sincerity,</lang><lang eu>Aldi batez isildu, eta bere ahotsa zintzotasunez leunduz,</lang> <span class="eu">&ldquo;Inori kalte egin nahi ez diona.&rdquo;</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ 6. PELLO ═══ -->
+<div class="section">
+  <div class="section-title">Pello Reparaz</div>
+
+  <div class="row">
+    <div class="col col-ref">
+      <span class="col-tag tag-ref"><lang en>Reference</lang><lang eu>Erreferentzia</lang></span>
+      <div class="audio-label">Pello Reparaz · <lang en>Voice sample</lang><lang eu>Ahots-lagina</lang></div>
+      <audio controls preload="none"><source src="audio/refs/pello_reparaz_demo.mp3" type="audio/mpeg"></audio>
+    </div>
+    <div class="col col-gen">
+      <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang></span>
+      <div class="audio-label">pello_adibide</div>
+      <audio controls preload="none"><source src="audio/gen/pello_adibide.mp3" type="audio/mpeg"></audio>
+      <div class="prompt"><lang en>A young man in his thirties speaks with a relaxed, easygoing tone, his voice warm and unhurried.</lang><lang eu>Hogeita hamar urteko gizon gazte batek tonu lasai eta erosoaz hitz egiten du, bere ahotsa epela eta presarik gabea delarik.</lang> <span class="eu">&ldquo;Hau beste adibide bat besterik ez da.&rdquo;</span> <lang en>He pauses briefly, a slight smile in his voice as he adds with genuine sincerity,</lang><lang eu>Aldi batez isildu, eta bere ahotsak irribarre txiki bat daramala gehitzen du zintzotasunez,</lang> <span class="eu">&ldquo;Inori kalte egin nahi ez diona.&rdquo;</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ 7. XABIER ═══ -->
+<div class="section">
+  <div class="section-title">Xabier Usabiaga</div>
+
+  <div class="row">
+    <div class="col col-ref">
+      <span class="col-tag tag-ref"><lang en>Reference</lang><lang eu>Erreferentzia</lang></span>
+      <div class="audio-label">Xabier Usabiaga · <lang en>Voice sample</lang><lang eu>Ahots-lagina</lang></div>
+      <audio controls preload="none"><source src="audio/refs/xabier_usabiaga_demo.mp3" type="audio/mpeg"></audio>
+    </div>
+    <div class="col col-gen">
+      <span class="col-tag tag-gen"><lang en>Generated</lang><lang eu>Sortutakoa</lang></span>
+      <div class="audio-label">xabier_adibide</div>
+      <audio controls preload="none"><source src="audio/gen/xabier_adibide.mp3" type="audio/mpeg"></audio>
+      <div class="prompt"><lang en>A man in his fifties speaks with a deep, measured voice, the kind that carries quiet authority and years of experience.</lang><lang eu>Berrogeita hamar urte inguruko gizon batek ahots sakon eta neurritsuaz hitz egiten du, autoritate isila eta urteetako esperientzia dakarren horietakoa.</lang> <span class="eu">&ldquo;Hau beste adibide bat besterik ez da.&rdquo;</span> <lang en>He pauses, letting the silence land, then continues with calm conviction,</lang><lang eu>Isildu egiten da, isiltasunari pisua emanez, eta gero segurtasun barez jarraitzen du,</lang> <span class="eu">&ldquo;Inori kalte egin nahi ez diona.&rdquo;</span></div>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  <p>
+    <a href="https://github.com/itzune/antzoki-tts">GitHub</a> &nbsp;·&nbsp;
+    <a href="https://huggingface.co/itzune/antzoki-tts">HuggingFace</a> &nbsp;·&nbsp;
+    <a href="https://itzune.eus">Itzune</a> &nbsp;·&nbsp;
+    <a href="https://xezpeleta.github.io/blog/antzoki-tts/"><lang en>Blog post</lang><lang eu>Blog sarrera</lang></a>
+  </p>
+  <p style="margin-top: 8px;"><lang en>Powered by</lang><lang eu>Oinarritua</lang> <a href="https://github.com/resemble-ai/DramaBox">DramaBox</a> &nbsp;·&nbsp; Apache 2.0</p>
+</footer>
+
+<script>
+  function setLang(l) {
+    document.querySelectorAll('lang[en], lang[eu]').forEach(el => {
+      el.style.display = el.hasAttribute(l) ? 'inline' : 'none';
+    });
+    document.getElementById('lang-en').classList.toggle('active', l==='en');
+    document.getElementById('lang-eu').classList.toggle('active', l==='eu');
+    localStorage.setItem('antzoki-lang', l);
+  }
+  // default: en; restore preference
+  var saved = localStorage.getItem('antzoki-lang') || 'en';
+  setLang(saved);
+</script>
+
+</body>
+</html>

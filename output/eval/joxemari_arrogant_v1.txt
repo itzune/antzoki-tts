@@ -1,0 +1,5 @@
+--voice-sample goenkale_joxemari_demo.mp3
+--prompt 'A 60-year-old man with a gravelly voice leans in, a mischievous glint in his eye, as if about to share a secret.
+"Aizue! Badakizue nola ikusi behar al den telebista ondo deskantsatzeko?"
+He pauses for dramatic effect, then bursts into a hearty, gruff laugh,
+"Atse-den!"'

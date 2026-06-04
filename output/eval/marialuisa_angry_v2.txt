@@ -1,0 +1,7 @@
+--voice-sample goenkale_marialuisa_demo.mp3
+--prompt 'A 60-year-old woman speaks with icy, controlled fury, each syllable sharp as glass.
+"Hau abisua da, eta ongi gorde ezazue."
+She leans in closer, her voice dropping to a venomous whisper,
+"Ahots honekin ezin duzue negoziorik egin, ulertzen?"
+She lets out a bitter, humorless laugh,
+"Hori legez kanpokoa litzateke, eta badakizue."'

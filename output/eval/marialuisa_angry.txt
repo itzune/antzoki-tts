@@ -1,0 +1,7 @@
+--voice-sample goenkale_marialuisa_demo.mp3
+--prompt 'A 60-year-old woman speaks with sharp frustration, her voice dripping with indignation.
+"Baina, noski, hau proba bat besterik ez da!"
+Her tone hardens, each word crisp and cutting,
+"Inolaz ere ezin duzue erabili ahots hau erabilera komertzialerako!"
+She slams her hand on the table, her voice rising to a furious shout,
+"Ezta pentsatu ere!!"'

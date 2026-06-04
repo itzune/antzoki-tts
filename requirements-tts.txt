@@ -1,0 +1,33 @@
+# Antzoki TTS — Inference dependencies
+#
+# Usage:
+#   cd DramaBox
+#   uv venv --python 3.10
+#   source .venv/bin/activate
+#   uv pip install -r ../requirements-tts.txt
+#
+# The --index-url line below tells pip/uv to fetch PyTorch from the CUDA wheel index.
+# All other packages fall through to PyPI.
+
+--index-url https://download.pytorch.org/whl/cu128
+
+# ── Core inference ──────────────────────────────────────────────────────────
+torch>=2.8.0
+torchaudio>=2.8.0
+safetensors>=0.4.0
+accelerate>=0.25.0
+peft>=0.7.0
+av>=12.0.0
+einops>=0.7.0
+PyYAML>=6.0
+sentencepiece>=0.1.99
+transformers>=4.45.0
+huggingface_hub>=0.20.0,<1.0
+bitsandbytes>=0.45.0
+pydantic==2.10.6
+soundfile>=0.12.0
+
+# ── Optional ────────────────────────────────────────────────────────────────
+# gradio==5.7.1          # Only for app.py (web demo)
+# spaces>=0.30.0         # Only for HuggingFace Spaces
+# resemble-perth         # Only if you want audio watermarking (--no-watermark to skip)

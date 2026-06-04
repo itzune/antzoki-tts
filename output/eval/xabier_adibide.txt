@@ -1,0 +1,5 @@
+--voice-sample xabier_usabiaga_15s.mp3
+--prompt 'A man in his fifties speaks with a deep, measured voice, the kind that carries quiet authority and years of experience.
+"Hau beste adibide bat besterik ez da."
+He pauses, letting the silence land, then continues with calm conviction,
+"Inori kalte egin nahi ez diona."'

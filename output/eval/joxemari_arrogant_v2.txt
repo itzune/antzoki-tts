@@ -1,0 +1,7 @@
+--voice-sample goenkale_joxemari_demo.mp3
+--prompt 'A 60-year-old man speaks with deep bitterness, his voice rough and weary from years of disappointment.
+"Urteak daramatzat hemen, eta oraindik probatzat hartzen naute."
+He pauses, his jaw tightening with resentment,
+"Nire ahotsa ez da jostailu bat, ulertzen?"
+His voice rises, trembling with barely contained rage,
+"Eta komertzializatzen saiatzen bazarete… hobe duzue ez."'

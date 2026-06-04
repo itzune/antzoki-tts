@@ -1,0 +1,7 @@
+--voice-sample goenkale_joxemari_demo.mp3
+--prompt 'A 60-year-old man speaks with cold, deliberate menace, his deep voice barely above a whisper.
+"Hau proba hutsa dela? Lasai, bai, badakit."
+He leans forward, his tone turning dangerously quiet,
+"Baina ondo gogoan hartu: ahots honekin jolasten duenak, nirekin jolasten du."
+He lets the silence stretch, then delivers the final words like a blade,
+"Eta ni ez naiz jostailua inorentzat."'
