@@ -105,7 +105,7 @@ He pauses, letting the silence breathe.
 "Bihotzaren taupadetatik, ametsen oihartzunetara."
 ```
 
-Full prompt-writing guide and more examples: **[docs/inference-guide.md](docs/inference-guide.md)**.
+Full prompt-writing guide and more examples: **[docs/guides/inference-guide.md](docs/guides/inference-guide.md)**.
 
 ---
 
@@ -135,8 +135,14 @@ antzoki-tts/
 ├── configs/
 │   └── training_args_v2_openslr_only.yaml
 ├── docs/
-│   ├── inference-guide.md           # Full inference walkthrough
-│   └── training-config.md           # Training configuration reference
+│   ├── index.html                  # GitHub Pages: demo website
+│   ├── logo.png                     # Logo
+│   ├── audio/                       # Audio files for demos
+│   │   ├── gen/                     # Generated samples
+│   │   └── refs/                    # Reference voice clips
+│   └── guides/
+│       ├── inference-guide.md       # Full inference walkthrough
+│       └── training-config.md       # Training configuration reference
 ├── scripts/
 │   ├── download_models.py            # One-shot weight downloader
 │   └── eval_inference.py            # Batch evaluation across checkpoints
@@ -170,7 +176,7 @@ antzoki-tts/
 
 ## Training
 
-If you want to train your own LoRA on a different dataset, use DramaBox's training pipeline. The training config used for this LoRA is in `configs/training_args_v2_openslr_only.yaml` (see [docs/training-config.md](docs/training-config.md) for details).
+If you want to train your own LoRA on a different dataset, use DramaBox's training pipeline. The training config used for this LoRA is in `configs/training_args_v2_openslr_only.yaml` (see [docs/guides/training-config.md](docs/guides/training-config.md) for details).
 
 ```bash
 cd DramaBox
